@@ -1,8 +1,10 @@
 import express from "express";
 import {
   createTodoController,
+  deleteTodoController,
   getAllTodosController,
   getTodoController,
+  updateTodoController,
 } from "../controllers/todo.controller.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
 
@@ -19,6 +21,10 @@ todoRouter.get("/getTodo", getTodoController);
 todoRouter.get("/getAllTodos", getAllTodosController);
 
 todoRouter.post("/createTodo", createTodoController);
+
+todoRouter.put("/updateTodo", updateTodoController);
+
+todoRouter.delete("/deleteTodo", deleteTodoController);
 
 //update Route
 

@@ -50,9 +50,36 @@ class TodoModel {
 
   //Actividad CRUD (Create, Read, Update, Delete)
 
-  updateTodo() {}
+  
+  async updateTodo(todoId, updatedTodoData) {
+    const existingData = await fs.readFile(this.filePath, "utf-8");
+    let existingTodos = JSON.parse(existingData || "[]");
 
-  deleteTodo() {}
+    const index = existingTodos.findIndex((todo) => todo.id === todoId);
+
+    if (index !== -1) {
+      existingTodos[index] = { ...existingTodos[index], ...updatedTodoData };
+      await fs.writeFile(this.filePath, JSON.stringify(existingTodos));
+      return existingTodos[index];
+    } else {
+      return { error: "Todo does not exist" };
+    }
+  }
+
+  async deleteTodo(todoId) {
+    const existingData = await fs.readFile(this.filePath, "utf-8");
+    let existingTodos = JSON.parse(existingData || "[]");
+
+    const index = existingTodos.findIndex((todo) => todo.id === todoId);
+
+    if (index !== -1) {
+      const deletedTodo = existingTodos.splice(index, 1);
+      await fs.writeFile(this.filePath, JSON.stringify(existingTodos));
+      return deletedTodo[0];
+    } else {
+      return { error: "Todo does not exist" };
+    }
+  }
 }
 
 export default TodoModel;

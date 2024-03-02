@@ -32,7 +32,7 @@ class AuthService {
       const token = jwt.sign(
         { user_id: user.id, email: user.email },
         process.env.TOKEN,
-        { expiresIn: "2h" }
+        { expiresIn: "10h" }
       );
 
       user.token = token;
@@ -67,7 +67,7 @@ class AuthService {
         const token = jwt.sign(
           { user_id: user.id, email: user.email },
           process.env.TOKEN,
-          { expiresIn: "2h" }
+          { expiresIn: "10h" }
         );
 
         user.token = token;

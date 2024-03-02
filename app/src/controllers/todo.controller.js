@@ -19,6 +19,12 @@ export const getTodoController = async (req, res) => {
 
 //Actividad CRUD (Create, Read, Update, Delete)
 
-const updateTodoController = () => {};
+export const updateTodoController = async (req, res) => {
+  const updateTodoResult = await todoService.updateTodo(req);
+  res.status(updateTodoResult.statusCode).json(updateTodoResult);
+};
 
-const deleteTodoController = () => {};
+export const deleteTodoController = async (req, res) => {
+  const deleteTodoResult = await todoService.deleteTodo(req);
+  res.status(deleteTodoResult.statusCode).json(deleteTodoResult);
+};

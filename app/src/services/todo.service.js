@@ -46,9 +46,54 @@ class TodoService {
 
   //Actividad CRUD (Create, Read, Update, Delete)
 
-  updateTodo() {}
+  async updateTodo(req) {
+    const { todoId, title, description } = req.body;
 
-  deleteTodo() {}
+    if (!(todoId && title && description)) {
+      return {
+        statusCode: 400,
+        message: "Please provide all params (todoId, title, description)",
+      };
+    }
+
+    const updatedTodo = await this.todoModel.updateTodo(
+      todoId,
+      { title, description },
+      req.user
+    );
+
+    if (!updatedTodo) {
+      return {
+        statusCode: 404,
+        message: "Todo not found or you do not have permission to update it",
+      };
+    }
+
+    return { statusCode: 200, todo: updatedTodo };
+  }
+
+  async deleteTodo(req) {
+    const { todoId } = req.body;
+
+    if (!todoId) {
+      return {
+        statusCode: 400,
+        message: "Please provide todoId",
+      };
+    }
+
+    const deletedTodo = await this.todoModel.deleteTodo(todoId, req.user);
+
+    if (!deletedTodo) {
+      return {
+        statusCode: 404,
+        message: "Todo not found or you do not have permission to delete it",
+      };
+    }
+
+    return { statusCode: 200, message: "Todo deleted successfully" };
+  }
 }
+
 
 export default TodoService;
